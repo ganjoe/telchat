@@ -1,0 +1,24 @@
+{
+  "agents": [
+    {
+      "alias": "pta",
+      "description": "Portfolio Trading Agent",
+      "is_human": false
+    },
+    {
+      "alias": "scanner",
+      "description": "Stock Scanner Agent",
+      "is_human": false
+    },
+    {
+      "alias": "human",
+      "description": "Default Human CLI",
+      "is_human": true
+    },
+    {
+      "alias": "human2",
+      "description": "Secondary Human Interface",
+      "is_human": true
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"agents": [{"alias": "pta", "description": "Agent A", "is_human": false}, {"alias": "scanner", "description": "Agent B", "is_human": false}, {"alias": "human", "description": "Human 1", "is_human": true}, {"alias": "human2", "description": "Human 2", "is_human": true}]}
