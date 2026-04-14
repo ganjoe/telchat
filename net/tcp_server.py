@@ -62,38 +62,41 @@ class TelChatServer:
         """
         alias: Optional[str] = None
         try:
-            # Step 1: Wait for registration
-            raw = self._receive_line(client_socket)
-            if not raw:
-                return
-
-            try:
-                msg = Message.from_json(raw)
-                if msg.msg_type != MessageType.REGISTRATION:
-                    return
-                alias = msg.data.get("alias", "")
-            except ValueError as e:
-                # Fallback für Humans (Telnet): Sie tippen nur ihren Alias (z.B. "human" oder "stm")
-                raw_alias = raw.strip()
-                agent_meta = self.registry.agents.get(raw_alias)
-                if agent_meta and agent_meta.is_human:
-                    alias = raw_alias
-                    self._send(client_socket, f"Erfolgreich als Human angemeldet: {alias}")
-                    # Erzeuge eine Dummy-Registration Message für das Logfile
-                    import time
-                    msg = Message(sender=alias, recipient="router", msg_type=MessageType.REGISTRATION, 
-                                  timestamp=time.time(), data={"alias": alias}, byte_count=0)
-                else:
-                    self._send(client_socket, "Fehler: Ungueltige JSON-Registrierung oder unbekannter Alias.")
+            # Step 1: Wait for registration (Loop until success or disconnect)
+            while True:
+                raw = self._receive_line(client_socket)
+                if not raw:
                     return
 
-            if msg.msg_type != MessageType.REGISTRATION:
-                return
-
-            # Step 2: Validate registration
-            alias = msg.data.get("alias", "")
-            if not self.registry.register_connection(alias):
-                return
+                try:
+                    msg = Message.from_json(raw)
+                    if msg.msg_type == MessageType.REGISTRATION:
+                        alias = msg.data.get("alias", "")
+                        if self.registry.register_connection(alias):
+                            break # Success!
+                        else:
+                            available = ", ".join(self.registry.agents.keys())
+                            self.send_error_feedback(client_socket, f"Alias '{alias}' bereits vergeben.", available)
+                    else:
+                        self._send(client_socket, "Fehler: Erste Nachricht muss eine Registrierung sein.")
+                except ValueError as e:
+                    # Fallback für Humans (Telnet): Sie tippen nur ihren Alias (z.B. "human" oder "stm")
+                    raw_alias = raw.strip()
+                    available = ", ".join(self.registry.agents.keys())
+                    agent_meta = self.registry.agents.get(raw_alias)
+                    if agent_meta and agent_meta.is_human:
+                        if self.registry.register_connection(raw_alias):
+                            alias = raw_alias
+                            self._send(client_socket, f"Erfolgreich als Human angemeldet: {alias}")
+                            # Erzeuge eine Dummy-Registration Message für das Logfile
+                            import time
+                            msg = Message(sender=alias, recipient="router", msg_type=MessageType.REGISTRATION, 
+                                          timestamp=time.time(), data={"alias": alias}, byte_count=0)
+                            break # Success!
+                        else:
+                            self.send_error_feedback(client_socket, f"Alias '{raw_alias}' bereits verbunden.", available)
+                    else:
+                        self.send_error_feedback(client_socket, f"'{raw_alias}' ist kein gueltiger Human-Alias.", available)
 
             # Step 3: Setup connection
             self.client_connections[alias] = client_socket
@@ -156,6 +159,12 @@ class TelChatServer:
                 self.router.unregister_send_function(alias)
                 self.client_connections.pop(alias, None)
             client_socket.close()
+
+    def send_error_feedback(self, sock: socket.socket, message: str, available_aliases: str) -> None:
+        """Helper to send a formatted error message with a list of available aliases."""
+        self._send(sock, f"FEHLER: {message}")
+        self._send(sock, f"VERFUEGBARE ALIASE: {available_aliases}")
+        self._send(sock, "--------------------------------------------------")
 
     def _receive_line(self, sock: socket.socket) -> Optional[str]:
         """Read one newline-terminated line from socket."""
