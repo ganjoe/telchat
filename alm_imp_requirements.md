@@ -728,12 +728,18 @@ class TelChatServer:
         #         if raw is None: client_socket.close(); return
         #
         # Step 2: Parse as Message
-        #         try: msg = Message.from_json(raw)
-        #         except ValueError: client_socket.close(); return
-        #
-        # Step 3: Verify it's a registration message
-        #         if msg.msg_type != MessageType.REGISTRATION:
-        #             client_socket.close(); return
+        #         try: 
+        #             msg = Message.from_json(raw)
+        #             if msg.msg_type != MessageType.REGISTRATION:
+        #                 client_socket.close(); return
+        #         except ValueError:
+        #             # Human Telnet Fallback
+        #             alias = raw.strip()
+        #             if self.registry.agents.get(alias) and self.registry.agents[alias].is_human:
+        #                 self._send(client_socket, f"Logged in as human: {alias}")
+        #                 pass # Proceed to Step 4
+        #             else:
+        #                 client_socket.close(); return
         #
         # Step 4: Validate alias against registry
         #         alias = msg.data.get("alias", "")
@@ -753,13 +759,20 @@ class TelChatServer:
         #             if raw is None: break
         #
         #             # Check if this is a human typing raw text (starts with @)
-        #             agent = self.registry.agents.get(alias)
-        #             if agent and agent.is_human and raw.strip().startswith("@"):
-        #                 parsed = CLIParser.parse(raw.strip(), sender=alias)
-        #                 if parsed:
-        #                     self.registry.update_last_seen(alias)
-        #                     self.router.route(parsed)
-        #                 continue
+        #             agent_meta = self.registry.agents.get(alias)
+        #             if agent_meta and agent_meta.is_human:
+        #                 stripped = raw.strip()
+        #                 if stripped.startswith("@"):
+        #                     parsed = CLIParser.parse(stripped, sender=alias)
+        #                     if parsed:
+        #                         self.registry.update_last_seen(alias)
+        #                         self.router.route(parsed)
+        #                     else:
+        #                         self._send(client_socket, f"Error... Echo: {stripped}")
+        #                     continue
+        #                 elif not stripped.startswith("{"):
+        #                     self._send(client_socket, f"Error... Echo: {stripped}")
+        #                     continue
         #
         #             # Otherwise: expect valid JSON message
         #             try:
@@ -807,6 +820,8 @@ class TelChatServer:
 - First message is NOT registration → close connection immediately
 - `_receive_line` with recv(1) is slow but simple. Do NOT optimize prematurely.
 - Human client sends raw text (starts with "@") → use CLIParser, NOT Message.from_json
+- Human client sends wrong format → return error + echo
+- Human client sends pure alias at start → accept as login
 - Human client sends JSON → treat as normal message (humans can also send JSON)
 
 ---

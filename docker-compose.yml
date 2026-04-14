@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  telchat-router:
+    build: .
+    # Wenn du ein fertiges Image verwenden möchtest, aktiviere die nächste Zeile und passe den Image-Namen an
+    # image: dein-dockerhub-user/telchat-router:latest
+    container_name: telchat-router
+    restart: unless-stopped
+    ports:
+      - "9999:9999"
+    environment:
+      - TELCHAT_HOST=0.0.0.0
+      - TELCHAT_PORT=9999
+      - TELCHAT_CONFIG=/app/config/agents.json
+    volumes:
+      # Mappe deine lokale Konfigurationsdatei in den Container (Read-Only)
+      - ./config/agents.json:/app/config/agents.json:ro
+      # Speicherplatz für Logs persistent machen
+      - telchat_logs:/app/logs
+
+volumes:
+  telchat_logs:

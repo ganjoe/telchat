@@ -137,3 +137,69 @@
 [2026-04-14T23:26:41.073791] [DROP] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202001.0734496, "byte_count": 8, "data": {"x": 1}}
 [2026-04-14T23:26:41.073820] [ROUTE] system -> pta [error] {"from": "system", "to": "pta", "msg_type": "error", "timestamp": 1776202001.0738127, "byte_count": 55, "data": {"error": "Recipient agent 'scanner' is not connected"}}
 [2026-04-14T23:26:41.073872] [SEND] system -> pta [error] {"from": "system", "to": "pta", "msg_type": "error", "timestamp": 1776202001.0738127, "byte_count": 55, "data": {"error": "Recipient agent 'scanner' is not connected"}}
+[2026-04-14T23:39:37.689616] [RECV] pta -> router [registration] {"from": "pta", "to": "router", "msg_type": "registration", "timestamp": 1776202777.6893978, "byte_count": 16, "data": {"alias": "pta"}}
+[2026-04-14T23:39:37.789750] [RECV] pta -> router [data] {"from": "pta", "to": "router", "msg_type": "data", "timestamp": 1776202777.7895591, "byte_count": 16, "data": {"ping": "pong"}}
+[2026-04-14T23:39:37.789853] [ROUTE] pta -> router [data] {"from": "pta", "to": "router", "msg_type": "data", "timestamp": 1776202777.7895591, "byte_count": 16, "data": {"ping": "pong"}}
+[2026-04-14T23:39:37.789890] [DROP] pta -> router [data] {"from": "pta", "to": "router", "msg_type": "data", "timestamp": 1776202777.7895591, "byte_count": 16, "data": {"ping": "pong"}}
+[2026-04-14T23:39:37.789930] [ROUTE] system -> pta [error] {"from": "system", "to": "pta", "msg_type": "error", "timestamp": 1776202777.7899215, "byte_count": 54, "data": {"error": "Recipient agent 'router' is not connected"}}
+[2026-04-14T23:39:37.789992] [SEND] system -> pta [error] {"from": "system", "to": "pta", "msg_type": "error", "timestamp": 1776202777.7899215, "byte_count": 54, "data": {"error": "Recipient agent 'router' is not connected"}}
+[2026-04-14T23:39:38.096515] [RECV] pta -> router [registration] {"from": "pta", "to": "router", "msg_type": "registration", "timestamp": 1776202778.0961554, "byte_count": 16, "data": {"alias": "pta"}}
+[2026-04-14T23:39:38.196743] [RECV] scanner -> router [registration] {"from": "scanner", "to": "router", "msg_type": "registration", "timestamp": 1776202778.1964505, "byte_count": 20, "data": {"alias": "scanner"}}
+[2026-04-14T23:39:38.296928] [RECV] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202778.296722, "byte_count": 33, "data": {"symbol": "AAPL", "cmd": "scan"}}
+[2026-04-14T23:39:38.297025] [ROUTE] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202778.296722, "byte_count": 33, "data": {"symbol": "AAPL", "cmd": "scan"}}
+[2026-04-14T23:39:38.297108] [SEND] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202778.296722, "byte_count": 33, "data": {"symbol": "AAPL", "cmd": "scan"}}
+[2026-04-14T23:39:38.298284] [RECV] human -> router [registration] {"from": "human", "to": "router", "msg_type": "registration", "timestamp": 1776202778.298133, "byte_count": 18, "data": {"alias": "human"}}
+[2026-04-14T23:39:38.398513] [RECV] human2 -> router [registration] {"from": "human2", "to": "router", "msg_type": "registration", "timestamp": 1776202778.3983192, "byte_count": 19, "data": {"alias": "human2"}}
+[2026-04-14T23:39:38.498958] [RECV] pta -> router [registration] {"from": "pta", "to": "router", "msg_type": "registration", "timestamp": 1776202778.4985945, "byte_count": 16, "data": {"alias": "pta"}}
+[2026-04-14T23:39:38.599043] [RECV] pta -> human [data] {"from": "pta", "to": "human", "msg_type": "data", "timestamp": 1776202778.598852, "byte_count": 19, "data": {"alert": "Crash!"}}
+[2026-04-14T23:39:38.599153] [ROUTE] pta -> human [data] {"from": "pta", "to": "human", "msg_type": "data", "timestamp": 1776202778.598852, "byte_count": 19, "data": {"alert": "Crash!"}}
+[2026-04-14T23:39:38.599298] [SEND] pta -> human [data] {"from": "pta", "to": "human", "msg_type": "data", "timestamp": 1776202778.598852, "byte_count": 19, "data": {"alert": "Crash!"}}
+[2026-04-14T23:39:38.811342] [RECV] human -> router [registration] {"from": "human", "to": "router", "msg_type": "registration", "timestamp": 1776202778.8111367, "byte_count": 18, "data": {"alias": "human"}}
+[2026-04-14T23:39:38.911669] [RECV] scanner -> router [registration] {"from": "scanner", "to": "router", "msg_type": "registration", "timestamp": 1776202778.911413, "byte_count": 20, "data": {"alias": "scanner"}}
+[2026-04-14T23:39:39.011662] [ROUTE] human -> scanner [data] {"from": "human", "to": "scanner", "msg_type": "data", "timestamp": 1776202779.011632, "byte_count": 21, "data": {"text": "scan MSFT"}}
+[2026-04-14T23:39:39.011758] [SEND] human -> scanner [data] {"from": "human", "to": "scanner", "msg_type": "data", "timestamp": 1776202779.011632, "byte_count": 21, "data": {"text": "scan MSFT"}}
+[2026-04-14T23:39:39.012707] [RECV] human -> router [registration] {"from": "human", "to": "router", "msg_type": "registration", "timestamp": 1776202779.0125372, "byte_count": 18, "data": {"alias": "human"}}
+[2026-04-14T23:39:39.112940] [RECV] pta -> router [registration] {"from": "pta", "to": "router", "msg_type": "registration", "timestamp": 1776202779.1127443, "byte_count": 16, "data": {"alias": "pta"}}
+[2026-04-14T23:39:39.213140] [RECV] pta -> human [ack] {"from": "pta", "to": "human", "msg_type": "ack", "timestamp": 1776202779.2129352, "byte_count": 23, "data": {"ack_for": 1234567.89}}
+[2026-04-14T23:39:39.213244] [ROUTE] pta -> human [ack] {"from": "pta", "to": "human", "msg_type": "ack", "timestamp": 1776202779.2129352, "byte_count": 23, "data": {"ack_for": 1234567.89}}
+[2026-04-14T23:39:39.213296] [SEND] pta -> human [ack] {"from": "pta", "to": "human", "msg_type": "ack", "timestamp": 1776202779.2129352, "byte_count": 23, "data": {"ack_for": 1234567.89}}
+[2026-04-14T23:39:39.214263] [RECV] human -> router [registration] {"from": "human", "to": "router", "msg_type": "registration", "timestamp": 1776202779.2140462, "byte_count": 18, "data": {"alias": "human"}}
+[2026-04-14T23:39:39.314386] [RECV] pta -> router [registration] {"from": "pta", "to": "router", "msg_type": "registration", "timestamp": 1776202779.314183, "byte_count": 16, "data": {"alias": "pta"}}
+[2026-04-14T23:39:39.414566] [RECV] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202779.414388, "byte_count": 8, "data": {"x": 1}}
+[2026-04-14T23:39:39.414655] [ROUTE] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202779.414388, "byte_count": 8, "data": {"x": 1}}
+[2026-04-14T23:39:39.414688] [DROP] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202779.414388, "byte_count": 8, "data": {"x": 1}}
+[2026-04-14T23:39:39.414716] [ROUTE] system -> pta [error] {"from": "system", "to": "pta", "msg_type": "error", "timestamp": 1776202779.4147093, "byte_count": 55, "data": {"error": "Recipient agent 'scanner' is not connected"}}
+[2026-04-14T23:39:39.414775] [SEND] system -> pta [error] {"from": "system", "to": "pta", "msg_type": "error", "timestamp": 1776202779.4147093, "byte_count": 55, "data": {"error": "Recipient agent 'scanner' is not connected"}}
+[2026-04-14T23:40:01.461091] [RECV] pta -> router [registration] {"from": "pta", "to": "router", "msg_type": "registration", "timestamp": 1776202801.4608972, "byte_count": 16, "data": {"alias": "pta"}}
+[2026-04-14T23:40:01.561196] [RECV] pta -> router [data] {"from": "pta", "to": "router", "msg_type": "data", "timestamp": 1776202801.5610607, "byte_count": 16, "data": {"ping": "pong"}}
+[2026-04-14T23:40:01.561268] [ROUTE] pta -> router [data] {"from": "pta", "to": "router", "msg_type": "data", "timestamp": 1776202801.5610607, "byte_count": 16, "data": {"ping": "pong"}}
+[2026-04-14T23:40:01.561292] [DROP] pta -> router [data] {"from": "pta", "to": "router", "msg_type": "data", "timestamp": 1776202801.5610607, "byte_count": 16, "data": {"ping": "pong"}}
+[2026-04-14T23:40:01.561314] [ROUTE] system -> pta [error] {"from": "system", "to": "pta", "msg_type": "error", "timestamp": 1776202801.5613077, "byte_count": 54, "data": {"error": "Recipient agent 'router' is not connected"}}
+[2026-04-14T23:40:01.561349] [SEND] system -> pta [error] {"from": "system", "to": "pta", "msg_type": "error", "timestamp": 1776202801.5613077, "byte_count": 54, "data": {"error": "Recipient agent 'router' is not connected"}}
+[2026-04-14T23:40:01.862484] [RECV] pta -> router [registration] {"from": "pta", "to": "router", "msg_type": "registration", "timestamp": 1776202801.8622608, "byte_count": 16, "data": {"alias": "pta"}}
+[2026-04-14T23:40:01.962711] [RECV] scanner -> router [registration] {"from": "scanner", "to": "router", "msg_type": "registration", "timestamp": 1776202801.962509, "byte_count": 20, "data": {"alias": "scanner"}}
+[2026-04-14T23:40:02.062926] [RECV] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202802.0626955, "byte_count": 33, "data": {"symbol": "AAPL", "cmd": "scan"}}
+[2026-04-14T23:40:02.063038] [ROUTE] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202802.0626955, "byte_count": 33, "data": {"symbol": "AAPL", "cmd": "scan"}}
+[2026-04-14T23:40:02.063124] [SEND] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202802.0626955, "byte_count": 33, "data": {"symbol": "AAPL", "cmd": "scan"}}
+[2026-04-14T23:40:02.065065] [RECV] human -> router [registration] {"from": "human", "to": "router", "msg_type": "registration", "timestamp": 1776202802.0647008, "byte_count": 18, "data": {"alias": "human"}}
+[2026-04-14T23:40:02.165297] [RECV] human2 -> router [registration] {"from": "human2", "to": "router", "msg_type": "registration", "timestamp": 1776202802.1650352, "byte_count": 19, "data": {"alias": "human2"}}
+[2026-04-14T23:40:02.265488] [RECV] pta -> router [registration] {"from": "pta", "to": "router", "msg_type": "registration", "timestamp": 1776202802.265286, "byte_count": 16, "data": {"alias": "pta"}}
+[2026-04-14T23:40:02.365543] [RECV] pta -> human [data] {"from": "pta", "to": "human", "msg_type": "data", "timestamp": 1776202802.365427, "byte_count": 19, "data": {"alert": "Crash!"}}
+[2026-04-14T23:40:02.365571] [ROUTE] pta -> human [data] {"from": "pta", "to": "human", "msg_type": "data", "timestamp": 1776202802.365427, "byte_count": 19, "data": {"alert": "Crash!"}}
+[2026-04-14T23:40:02.365651] [SEND] pta -> human [data] {"from": "pta", "to": "human", "msg_type": "data", "timestamp": 1776202802.365427, "byte_count": 19, "data": {"alert": "Crash!"}}
+[2026-04-14T23:40:02.577998] [RECV] human -> router [registration] {"from": "human", "to": "router", "msg_type": "registration", "timestamp": 1776202802.5778286, "byte_count": 18, "data": {"alias": "human"}}
+[2026-04-14T23:40:02.678301] [RECV] scanner -> router [registration] {"from": "scanner", "to": "router", "msg_type": "registration", "timestamp": 1776202802.678026, "byte_count": 20, "data": {"alias": "scanner"}}
+[2026-04-14T23:40:02.778306] [ROUTE] human -> scanner [data] {"from": "human", "to": "scanner", "msg_type": "data", "timestamp": 1776202802.7782712, "byte_count": 21, "data": {"text": "scan MSFT"}}
+[2026-04-14T23:40:02.778470] [SEND] human -> scanner [data] {"from": "human", "to": "scanner", "msg_type": "data", "timestamp": 1776202802.7782712, "byte_count": 21, "data": {"text": "scan MSFT"}}
+[2026-04-14T23:40:02.780062] [RECV] human -> router [registration] {"from": "human", "to": "router", "msg_type": "registration", "timestamp": 1776202802.779658, "byte_count": 18, "data": {"alias": "human"}}
+[2026-04-14T23:40:02.880204] [RECV] pta -> router [registration] {"from": "pta", "to": "router", "msg_type": "registration", "timestamp": 1776202802.879983, "byte_count": 16, "data": {"alias": "pta"}}
+[2026-04-14T23:40:02.980162] [RECV] pta -> human [ack] {"from": "pta", "to": "human", "msg_type": "ack", "timestamp": 1776202802.9800556, "byte_count": 23, "data": {"ack_for": 1234567.89}}
+[2026-04-14T23:40:02.980195] [ROUTE] pta -> human [ack] {"from": "pta", "to": "human", "msg_type": "ack", "timestamp": 1776202802.9800556, "byte_count": 23, "data": {"ack_for": 1234567.89}}
+[2026-04-14T23:40:02.980229] [SEND] pta -> human [ack] {"from": "pta", "to": "human", "msg_type": "ack", "timestamp": 1776202802.9800556, "byte_count": 23, "data": {"ack_for": 1234567.89}}
+[2026-04-14T23:40:02.981170] [RECV] human -> router [registration] {"from": "human", "to": "router", "msg_type": "registration", "timestamp": 1776202802.9809313, "byte_count": 18, "data": {"alias": "human"}}
+[2026-04-14T23:40:03.081284] [RECV] pta -> router [registration] {"from": "pta", "to": "router", "msg_type": "registration", "timestamp": 1776202803.0810223, "byte_count": 16, "data": {"alias": "pta"}}
+[2026-04-14T23:40:03.181235] [RECV] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202803.1811244, "byte_count": 8, "data": {"x": 1}}
+[2026-04-14T23:40:03.181289] [ROUTE] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202803.1811244, "byte_count": 8, "data": {"x": 1}}
+[2026-04-14T23:40:03.181309] [DROP] pta -> scanner [data] {"from": "pta", "to": "scanner", "msg_type": "data", "timestamp": 1776202803.1811244, "byte_count": 8, "data": {"x": 1}}
+[2026-04-14T23:40:03.181326] [ROUTE] system -> pta [error] {"from": "system", "to": "pta", "msg_type": "error", "timestamp": 1776202803.1813223, "byte_count": 55, "data": {"error": "Recipient agent 'scanner' is not connected"}}
+[2026-04-14T23:40:03.181367] [SEND] system -> pta [error] {"from": "system", "to": "pta", "msg_type": "error", "timestamp": 1776202803.1813223, "byte_count": 55, "data": {"error": "Recipient agent 'scanner' is not connected"}}

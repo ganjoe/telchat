@@ -69,9 +69,23 @@ class TelChatServer:
 
             try:
                 msg = Message.from_json(raw)
+                if msg.msg_type != MessageType.REGISTRATION:
+                    return
+                alias = msg.data.get("alias", "")
             except ValueError as e:
-                # Close if malformed or not JSON
-                return
+                # Fallback für Humans (Telnet): Sie tippen nur ihren Alias (z.B. "human" oder "stm")
+                raw_alias = raw.strip()
+                agent_meta = self.registry.agents.get(raw_alias)
+                if agent_meta and agent_meta.is_human:
+                    alias = raw_alias
+                    self._send(client_socket, f"Erfolgreich als Human angemeldet: {alias}")
+                    # Erzeuge eine Dummy-Registration Message für das Logfile
+                    import time
+                    msg = Message(sender=alias, recipient="router", msg_type=MessageType.REGISTRATION, 
+                                  timestamp=time.time(), data={"alias": alias}, byte_count=0)
+                else:
+                    self._send(client_socket, "Fehler: Ungueltige JSON-Registrierung oder unbekannter Alias.")
+                    return
 
             if msg.msg_type != MessageType.REGISTRATION:
                 return
@@ -100,12 +114,23 @@ class TelChatServer:
 
                 # Handle Human CLI syntax (@recipient text)
                 agent_meta = self.registry.agents.get(alias)
-                if agent_meta and agent_meta.is_human and raw.strip().startswith("@"):
-                    parsed = CLIParser.parse(raw.strip(), sender=alias)
-                    if parsed:
-                        self.registry.update_last_seen(alias)
-                        self.router.route(parsed)
-                    continue
+                if agent_meta and agent_meta.is_human:
+                    stripped = raw.strip()
+                    if stripped.startswith("@"):
+                        parsed = CLIParser.parse(stripped, sender=alias)
+                        if parsed:
+                            self.registry.update_last_seen(alias)
+                            self.router.route(parsed)
+                        else:
+                            self._send(client_socket, f"Fehler: Ungueltiges Routing. Format: @empfaenger text. Echo: {stripped}")
+                        continue
+                    elif stripped.startswith("{"):
+                        # Wahrscheinlich JSON, an den normalen JSON-Parser weitergeben
+                        pass
+                    else:
+                        # Ungültige Roheingabe von Human -> Fehler + Echo
+                        self._send(client_socket, f"Fehler: Befehle muessen mit '@' beginnen (z.B. '@pta status'). Echo: {stripped}")
+                        continue
 
                 # Handle normal JSON messages
                 try:
@@ -117,6 +142,8 @@ class TelChatServer:
                     self.logger.log(msg, direction="RECV")
                     self.router.route(msg)
                 except ValueError as e:
+                    if agent_meta and agent_meta.is_human:
+                        self._send(client_socket, f"Fehler: Ungueltiges JSON. Echo: {raw.strip()}")
                     # Ignore malformed messages within a session but log the reason
                     print(f"Dropping malformed message from {alias}: {e}")
                     continue

@@ -127,7 +127,9 @@ def test_it_020_030_registration_enforcement():
     }
     sock2.sendall((json.dumps(reg_msg) + "\n").encode("utf-8"))
     time.sleep(0.2)
-    assert sock2.recv(1024) == b"" # Server should close connection
+    response = sock2.recv(1024).decode()
+    assert "Fehler:" in response
+    assert sock2.recv(1024) == b"" # Server should close connection afterwards
 
 def test_it_050_agent_to_agent_routing():
     """Validates F-COM-040: Routing between agents."""

@@ -88,8 +88,10 @@ Der Router sendet Fehlermeldungen unter dem Alias `system`.
 ## 5. Besonderheiten für "Human"-Agenten
 
 Wenn ein Agent in der Konfiguration als `is_human: true` markiert ist:
-- Er erhält Nachrichten vom Router in **formatiertem Text** (CLI-Tabellen), nicht als JSON (außer bei ACKs).
-- Er kann Text-Befehle im Format `@empfänger Nachricht` senden. Der Router parst diese automatisch in JSON um.
+- **Einfacher Login:** Humans müssen kein JSON senden, um sich zu registrieren. Es reicht, den Alias (z.B. `human`) als simplen Text zu senden (Zeilenumbruch `\n` am Ende).
+- **Formatierte Ausgabe:** Er erhält Nachrichten vom Router in **formatiertem Text** (CLI-Tabellen), nicht als JSON (außer bei ACKs).
+- **Routing-Syntax:** Er kann Text-Befehle im Format `@empfänger Nachricht` senden. Der Router parst diese automatisch in JSON um.
+- **Echos & Fehler:** Wenn Humans fehlerhafte Eingaben (kein `@...`) oder kaputte JSON-Daten senden, antwortet der Router mit einem Fehler-Feedback und einem Echo der gesendeten Eingabe.
 
 ---
 

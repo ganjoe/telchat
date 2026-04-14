@@ -11,6 +11,7 @@
 | F-REG-070 | Registry | JSON-basierte Anmeldung | Agenten registrieren ihren eindeutigen Alias über eine initiale JSON-Nachricht vom Typ `registration`. | - |
 | F-UX-080 | UX | JSON-to-Table Formatter | Der Router transformiert JSON-Strukturen im `data`-Feld für den Empfänger `human` in eine lesbare Text-Tabelle. | - |
 | F-UX-090 | UX | CLI-to-JSON Wrapper | Benutzereingaben (z.B. `@pta ...`) werden vom Router in das interne JSON-Standardformat gekapselt. | - |
+| F-UX-095 | UX | Human Telnet Login & Feedback | Humans können sich statt mit JSON auch nur durch Eingabe ihres Alias registrieren. Bei Formatfehlern erhalten sie ein Text-Feedback plus Echo ihrer Eingabe. | - |
 | F-UX-100 | UX | Human-Date Conversion | Unix-Zeitstempel werden für die Ausgabe an menschliche Schnittstellen in ein lesbares Format (ISO 8601/Lokalzeit) gewandelt. | - |
 | F-ERR-110 | Error | Fehler-Feedback an Human | Systemfehler (Timeout, unbekanntes Ziel) werden als systemgenerierte Nachrichten an die menschlichen Nutzer gesendet. | - |
 | F-SYS-120 | System | Multi-Human Broadcast | Nachrichten an den Empfänger `human` müssen an alle aktuell verbundenen menschlichen Schnittstellen gleichzeitig verteilt werden. | - |
