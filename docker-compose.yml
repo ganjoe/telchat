@@ -14,8 +14,8 @@ services:
       - TELCHAT_PORT=9999
       - TELCHAT_CONFIG=/app/config/agents.json
     volumes:
-      # Mappe deine lokale Konfigurationsdatei in den Container (Read-Only)
-      - ./config/agents.json:/app/config/agents.json:ro
+      # Mappe das gesamte Konfigurationsverzeichnis
+      - ./config:/app/config:ro
       # Speicherplatz für Logs persistent machen
       - telchat_logs:/app/logs
 
