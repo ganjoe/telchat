@@ -19,6 +19,7 @@ ENV TELCHAT_HOST=0.0.0.0
 ENV TELCHAT_PORT=9999
 ENV TELCHAT_CONFIG=/app/config/agents.json
 ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
 
 # Port freigeben, auf dem der Server lauscht
 EXPOSE 9999

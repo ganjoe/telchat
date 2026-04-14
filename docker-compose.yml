@@ -13,6 +13,7 @@ services:
       - TELCHAT_HOST=0.0.0.0
       - TELCHAT_PORT=9999
       - TELCHAT_CONFIG=/app/config/agents.json
+      - PYTHONUNBUFFERED=1
     volumes:
       # Mappe das gesamte Konfigurationsverzeichnis
       - ./config:/app/config:ro
