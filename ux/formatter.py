@@ -48,9 +48,15 @@ class HumanFormatter:
     @staticmethod
     def format_message_for_human(sender: str, timestamp: float, data: Dict[str, Any]) -> str:
         """
-        Combines timestamp and table formatting.
+        F-UX-080/120: Simple output for humans (removed tables).
         """
         formatted_time = HumanFormatter.format_timestamp(timestamp)
-        header = f"── {sender} @ {formatted_time} ──"
-        table = HumanFormatter.dict_to_table(data)
-        return f"{header}\n{table}"
+        
+        if "text" in data:
+            content = data["text"]
+        elif "error" in data:
+            content = f"FEHLER: {data['error']}"
+        else:
+            content = str(data)
+            
+        return f"[{formatted_time}] {sender}: {content}"
