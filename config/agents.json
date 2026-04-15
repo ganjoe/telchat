@@ -13,7 +13,7 @@
     {
       "alias": "stm",
       "description": "smart trade manager",
-      "is_human": true
+      "is_human": false
     },
     {
       "alias": "human",
