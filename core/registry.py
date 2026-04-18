@@ -14,6 +14,7 @@ class AgentMetadata:
     connection_time: Optional[float] = None
     last_seen: Optional[float] = None
     is_connected: bool = False
+    timeout_reported: bool = False
 
 
 class AgentRegistry:
@@ -70,9 +71,10 @@ class AgentRegistry:
             self.agents[alias].connection_time = None
 
     def update_last_seen(self, alias: str) -> None:
-        """Update last_seen timestamp for watchdog."""
+        """Update last_seen timestamp for watchdog and reset warning state."""
         if alias in self.agents:
             self.agents[alias].last_seen = time.time()
+            self.agents[alias].timeout_reported = False
 
     def get_connected_humans(self) -> List[str]:
         """Returns list of aliases where is_human=True AND is_connected=True."""

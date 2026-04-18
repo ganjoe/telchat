@@ -44,11 +44,16 @@ class ConnectionWatchdog:
             for alias in self.registry.get_connected_agents():
                 metadata = self.registry.agents.get(alias)
                 if metadata and metadata.last_seen:
+                    # F-SYS-020: Ignore timeout for human clients (like Telnet) as they don't send heartbeats.
+                    if getattr(metadata, 'is_human', False):
+                        continue
+
                     if (now - metadata.last_seen) > self.timeout_seconds:
-                        # Agent timed out
-                        self.registry.disconnect(alias)
-                        if self.on_timeout:
-                            try:
-                                self.on_timeout(alias)
-                            except Exception as e:
-                                print(f"Error in watchdog timeout callback for {alias}: {e}")
+                        # Agent timed out - trigger warning only once until it recovers
+                        if getattr(metadata, 'timeout_reported', False) == False:
+                            setattr(metadata, 'timeout_reported', True)
+                            if self.on_timeout:
+                                try:
+                                    self.on_timeout(alias)
+                                except Exception as e:
+                                    print(f"Error in watchdog timeout callback for {alias}: {e}")

@@ -60,15 +60,15 @@ class MessageRouter:
     def handle_timeout(self, alias: str) -> None:
         """
         F-SYS-020 + F-ERR-110: Called by watchdog when an agent times out.
+        Emit a warning instead of disconnecting.
         """
         error_msg = Message.create(
             sender="system", 
             recipient="human",
             msg_type=MessageType.ERROR,
-            data={"error": f"Agent '{alias}' timed out and was disconnected"}
+            data={"error": f"Agent '{alias}' hat seit 60 Sekunden keinen Heartbeat gesendet (möglicherweise blockiert/abgestürzt)."}
         )
         self.route(error_msg)
-        self.unregister_send_function(alias)
 
     def _send_raw(self, recipient: str, payload: str, original_msg: Message) -> None:
         """Helper to send raw data to an agent or report error."""

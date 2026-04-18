@@ -68,6 +68,9 @@ class TelChatServer:
                 if not raw:
                     return
 
+                if raw.strip().lower() == "quit":
+                    return
+
                 try:
                     msg = Message.from_json(raw)
                     if msg.msg_type == MessageType.REGISTRATION:
@@ -114,6 +117,10 @@ class TelChatServer:
                 
                 if not raw.strip():
                     continue
+                    
+                if raw.strip().lower() == "quit":
+                    self._send(client_socket, "Verbindung beendet. Goodbye!")
+                    break
 
                 # Handle Human CLI syntax (@recipient text)
                 agent_meta = self.registry.agents.get(alias)

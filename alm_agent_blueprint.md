@@ -35,7 +35,16 @@ Direkt nach dem Öffnen des TCP-Sockets MUSS der Agent eine Registrierungs-Nachr
 Nach erfolgreicher Registrierung tritt der Agent in die Loop ein:
 1. **Senden:** Nachrichten an andere Agenten oder `human`.
 2. **Empfangen:** Eingehende Nachrichten (JSON) oder ACKs verarbeiten.
-3. **Heartbeat:** Mindestens alle 50 Sekunden eine Nachricht senden (oder ein ACK), um den Router-Watchdog (60s Timeout) zurückzusetzen.
+3. **Heartbeat:** Mindestens alle 60 Sekunden eine Nachricht senden (oder ein leeres ACK), um den Router-Watchdog zurückzusetzen.
+
+> **Architektur-Notiz (Watchdog / Connection Monitoring):**
+> Der TelChat-Router nutzt einen Watchdog, der Inaktivität (fehlende Heartbeats) über 60 Sekunden erkennt.
+> * **Kein Disconnect:** Eine inaktive TCP-Verbindung wird **nicht**  gekappt. Das Kappen aktiver Sockets führt bei blockierten Prozessen (z.B. ladende KI-Modelle) zu unbeabsichtigten Zombie-Verbindungen. 
+> * **Health-Check Warning:** Der Router sendet anstatt eines Disconnects lediglich eine System-Warnung (`msg_type: "error"`) an alle menschlichen Teilnehmer, um über eine mögliche Blockade zu informieren.
+> * **Auto-Recovery:** Sobald der Agent wieder Lebenszeichen sendet, gilt er automatisch wieder als gesund (die Warnung wird zurückgesetzt).
+
+### Phase 3: Abmeldung / Disconnect
+Ein Agent (oder Human) kann die TCP-Verbindung jederzeit serverseitig sauber trennen lassen, indem er exakt das Wort `quit` (gefolgt von `\n`) sendet. Der Router bestätigt dies kurz und schließt den Socket.
 
 ---
 
@@ -92,6 +101,8 @@ Wenn ein Agent in der Konfiguration als `is_human: true` markiert ist:
 - **Formatierte Ausgabe:** Er erhält Nachrichten vom Router in **formatiertem Text** (CLI-Tabellen), nicht als JSON (außer bei ACKs).
 - **Routing-Syntax:** Er kann Text-Befehle im Format `@empfänger Nachricht` senden. Der Router parst diese automatisch in JSON um.
 - **Echos & Fehler:** Wenn Humans fehlerhafte Eingaben (kein `@...`) oder kaputte JSON-Daten senden, antwortet der Router mit einem Fehler-Feedback und einem Echo der gesendeten Eingabe.
+- **Watchdog-Ausnahme:** Menschliche Telnet-Teilnehmer senden in der Regel keine automatischen Heartbeats. Der Watchdog ignoriert daher Timeouts für als `human` deklarierte Aliase vollständig.
+- **Abmelden:** Durch Eingabe von `quit` kann das Terminalfenster (und serverseitig die TCP-Verbindung) direkt sauber geschlossen werden.
 
 ---
 
